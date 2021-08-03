@@ -14,4 +14,39 @@ base case는 더 이상 나눠지지 않는, idx가 중복제외하고 정렬한
 push한다.
 
 
-/* 좀있다가 깃허브에 올릴때 내가 그린 그림첨부해서 코드설명하는 방식으로 올리자..*/
+```js
+const powerSet = function (str) {
+
+  const sorted = str.split('').sort();
+
+
+  const deduplicated = sorted.reduce((acc, item) => {
+    if (acc[acc.length - 1] === item) {
+      return acc;
+    } else {
+      return acc.concat(item);
+    }
+  });
+
+  let subSets = [];
+  const _temp = (idx, subset) => {
+    // base case
+    if (idx === deduplicated.length) {
+      subSets.push(subset);
+      return;
+    }
+
+    _temp(idx + 1, subset);
+
+    _temp(idx + 1, subset + deduplicated[idx]);
+  };
+
+  _temp(0, '');
+
+  return subSets.sort();
+};
+```
+
+![Permutation](https://user-images.githubusercontent.com/78221368/128029239-977b476a-b89f-42ae-9151-fd08012255a1.jpeg)
+
+이런식으로 재귀를 하나하나 곱씹어보았다. 좋은 방법인 듯하다.
