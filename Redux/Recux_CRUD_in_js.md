@@ -1,8 +1,6 @@
-리액트에서의 리덕스가 아닌 순수 자바스크립트에서 리덕스를 공부하고 리액트에서
-사용하고 싶어서 자바스크립트에서 리덕스로 CRUD를 구현해보았다. 아직 update와 
-delete 후의 Read가 말썽이지만 내일 마저 구현해보도록 하겠다.
+JavaScript Dom과 Redux로 CRUD를 구현해봤다.
 
-````js
+```js
 <!doctype html>
 <html>
 
@@ -45,20 +43,47 @@ delete 후의 Read가 말썽이지만 내일 마저 구현해보도록 하겠다
       }
 
       if (action.type === 'CHANGE_CONTENT') {
-        newState = Object.assign({}, state, { nowId: action.id });
+        newState = Object.assign({}, state, { nowId: action.id, mode: action.mode });
       } else if (action.type === 'CHANGE_MODE') {
         newState = Object.assign({}, state, { mode: action.mode });
-      } else if(action.type === 'CREATE_PUSH'){
-        newState = Object.assign({}, state, {maxId: state.maxId + 1});
+      } else if (action.type === 'CREATE_PUSH') {
+        newState = Object.assign({}, state, { maxId: state.maxId + 1 });
         newState.contentsMenu.push({
           id: state.maxId + 1,
           title: action.title,
           text: action.text,
         });
-      } else if(action.type === 'DELETE'){
-        let temp = state.contentsMenu.filter((el) => el.title !== action.delete);
-        newState = Object.assign({}, state);
+      } else if (action.type === 'DELETE') {
+        let temp;
+        let temp_nowId;
+        let _newStateArr = [];
+        temp = state.contentsMenu.filter((el) => {
+          if (el.title === action.delete) {
+            temp_nowId = el.id
+          }
+          else if (el.title !== action.delete) return true;
+        });
+        temp.reduce((acc, cur, idx) => {
+          cur.id = idx;
+          _newStateArr.push(cur);
+          return;
+        })
+        if (temp_nowId === state.nowId) {
+          newState = Object.assign({}, state, { nowId: temp[0].id });
+          newState.contentsMenu = _newStateArr;
+        } else {
+          newState = Object.assign({}, state);
+          newState.contentsMenu = _newStateArr;
+        }
         newState.contentsMenu = temp;
+      }else if(action.type === 'UPDATE'){
+        let temp = state.contentsMenu.forEach((el) => {
+          if(el.id === action.id){
+            el.title = action.title;
+            el.text = action.text;
+          }
+        });
+        newState = Object.assign({}, state);
       }
 
       return newState;
@@ -69,7 +94,8 @@ delete 후의 Read가 말썽이지만 내일 마저 구현해보도록 하겠다
     )
     function makeh1() {
       let state = store.getState();
-      document.querySelector('h1').textContent = state.contentsMenu[state.nowId].title;
+      let temp = state.contentsMenu.filter((el) => state.nowId === el.id);
+      document.querySelector('h1').textContent = temp[0].title;
     }
 
     function makeContentsMenu() {
@@ -80,10 +106,11 @@ delete 후의 Read가 말썽이지만 내일 마저 구현해보도록 하겠다
         let makeH3 = document.createElement('h3');
         makeH3.textContent = state.contentsMenu[i].title;
         makeH3.value = state.contentsMenu[i].id
-        makeH3.onclick = function () {
+        makeH3.onclick = () => {
           store.dispatch({
             type: 'CHANGE_CONTENT',
-            id: makeH3.value
+            id: makeH3.value,
+            mode: 'READ'
           });
           read();
         }
@@ -127,7 +154,9 @@ delete 후의 Read가 말썽이지만 내일 마저 구현해보도록 하겠다
 
     function read() {
       let state = store.getState();
-      document.querySelector('#content').textContent = state.contentsMenu[state.nowId].text;
+      let temp = state.contentsMenu.filter((el) => state.nowId === el.id);
+      // console.log('temp : ', temp);
+      document.querySelector('#content').textContent = temp[0].text;
     }
 
     function create() {
@@ -144,12 +173,12 @@ delete 후의 Read가 말썽이지만 내일 마저 구현해보도록 하겠다
         temp.text = e.target.value
       };
 
-      buttonSend.onclick =  () => {
-          store.dispatch({
-            type: 'CREATE_PUSH',
-            title: temp.title,
-            text: temp.text
-          });
+      buttonSend.onclick = () => {
+        store.dispatch({
+          type: 'CREATE_PUSH',
+          title: temp.title,
+          text: temp.text
+        });
       };
 
       buttonSend.textContent = 'Create!!';
@@ -161,7 +190,7 @@ delete 후의 Read가 말썽이지만 내일 마저 구현해보도록 하겠다
       content.append(buttonSend);
     }
 
-    function _delete(){
+    function _delete() {
       let content = document.querySelector('#content');
       content.textContent = '';
       let input = document.createElement('input');
@@ -181,28 +210,74 @@ delete 후의 Read가 말썽이지만 내일 마저 구현해보도록 하겠다
       content.append(buttonSend);
     }
 
+    function _update() {
+      let state = store.getState();
+      let inputTitle = document.createElement('input');
+      let inputText = document.createElement('input');
+      let buttonSend = document.createElement('button');
+
+      let _title;
+      let _text;
+
+      inputTitle.onchange = (e) => {
+        _title = e.target.value;
+      }
+
+      inputText.onchange = (e) => {
+        _text = e.target.value;
+      }
+
+      // 만약 inputTitle에 넣은 값이 title에 있다면 update실행 아니면 실행하지 않을것
+      buttonSend.textContent = 'UPDATE!';
+      buttonSend.onclick = () => {
+        for (let item of state.contentsMenu) {
+          if (item.title === _title) {
+            store.dispatch({
+              type: 'UPDATE',
+              id: item.id,
+              title: _title,
+              text: _text
+            })
+          }
+        }
+      }
+
+
+      let content = document.querySelector('#content');
+      content.textContent = '';
+      content.append(inputTitle);
+      content.append(inputText);
+      content.append(buttonSend);
+
+      return;
+    }
+
     function reLoading() {
       let state = store.getState();
       if (state.mode === 'CREATE') {
         create();
       } else if (state.mode === 'UPDATE') {
-
+        _update();
       } else if (state.mode === 'DELETE') {
         _delete();
       } else if (state.mode === 'READ') {
         read();
       }
     }
+    function _console() {
+      let state = store.getState();
+      console.log('state : ', state);
+    }
     store.subscribe(makeh1);
     store.subscribe(makeContentsMenu);
     store.subscribe(reLoading);
+    store.subscribe(_console);
     makeh1();
     makeContentsMenu();
     makeCRUD();
-
+    _console();
 
   </script>
 </body>
 
-</html>
-```
+</html>```
