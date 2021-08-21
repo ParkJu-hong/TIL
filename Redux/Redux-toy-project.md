@@ -232,6 +232,30 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
   // 이 함수는 props로 이벤트 함수를 전달해주기 위함이다. mapStateToProps와 동일하게 객체를
-  // 리턴하고 
+  // 리턴하고 그 객체의 property name은 props의 이름이다.
 
+  // 대부분 리액트에서든 html과 같이
+  // 사용하는 자바스크립트에서는 이벤트가 발생했을 경우 어떠한 데이터를 CRUD하게 되는데, 이때
+  // 리덕스를 사용하는 경우 이벤트가 발생했을때 데이터를 CRUD할때 dispatch라는 함수에서 action
+  // 을 만들어 어떤 조치를 취하여 state값을 바꿀 것인가 하는 것을 reducer에서 구현한다.
+
+  // 그래서 이 함수는 그러한 이벤트를 위해 props에 함수를 전달해주는 역활을 한다.
+  // 예를들어 onClick이란 props에 함수를 줄경우는 다음과 같다.
+
+  return {
+    onClick : function(liftedState){
+      // liftedState은 stateLifting(state끌어올리기) 즉, 자식컴포넌트에서 부모컴포넌트에
+      // 어떠한 값을 전달하고 싶을때 이벤트가 발생했을 경우 자식컴포넌트의 props에 부모컴포넌트에서
+      // 함수를 전달하고 그 함수주소에 전달하고싶은 데이터를 인자로 넣어주게되면, 부모컴포넌트에서
+      // props로 전달한 함수를 사용할때 매개변수로 자식컴포넌트에서 넘겨준 데이터를 사용할 수
+      // 있게된다.
+
+      dispatch({
+          type: 'ThisIsActionType',
+          payload: {
+            value: liftedState
+          }
+      })
+    }
+  }
 }
