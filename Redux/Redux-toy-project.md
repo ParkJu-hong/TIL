@@ -206,7 +206,7 @@ export default class extends Component {
     } contents={state}/>
   }
 }
-```jsx
+```
 
 2.3. 최종적으로 불편한 점
 : redux를 사용하여 컴포넌트를 구현할때마다 일일이 랩핑해주는 것이 불편한 점이다.
@@ -220,6 +220,7 @@ export default class extends Component {
 
 1) connect와 mapStateToProps, mapDispatchToProps
 : 함수이름은 생활코딩에서 좀 더 직관적으로 재작명해준대로 적어봤다.
+
 ```jsx
 import { connect } from 'react-redux';
 connect(mapReduxStateToReactProps, mapReduxDispatchToReactProps)(Presentation Component)
