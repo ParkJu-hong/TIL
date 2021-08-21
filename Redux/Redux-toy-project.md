@@ -221,12 +221,17 @@ connect(mapReduxStateToReactProps, mapReduxDispatchToReactProps)(Presentation Co
 function mapStateToProps(state){
   // 리턴값으로 객체를 리턴하는 데, 이때의 property name을 컴포넌트에 넣어줄 props 이름을 넣어
   // 주면 된다. 예를 들어 props의 이름이 text라면 다음과 같다.
-  // 그렇게 된다면, Presentation Component에서 props를 사용할 수 있다. 이는 
+  // 그렇게 된다면, Presentation Component에서 props를 사용할 수 있다.  
+  // 강조하지만 이는 connect()를 쓰고 Wrapping을 할때 state값이나 어떠한 데이터든 컴포넌트의
+  // props로 할당을 해서 사용하기 위함이다.
   return {
-    text: 'Hello, world';
+    text: 'Hello, world',
+    value: state.value;
   }
 }
 
 function mapDispatchToProps(dispatch){
+  // 이 함수는 props로 이벤트 함수를 전달해주기 위함이다. mapStateToProps와 동일하게 객체를
+  // 리턴하고 
 
 }
