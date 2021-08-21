@@ -8,6 +8,7 @@
 
 2.1. 랩핑을 해주지 않은 상태에서의 리액트에서 리덕스를 쓰는 개발 환경
 
+```jsx
 // App.js
 import React from 'react';
 import { store } from './store.js';
@@ -22,7 +23,9 @@ export default App extends React.Component {
     return <Post />
   }
 }
+```
 
+```jsx
 // store.js
 import {createStore} from 'redux';
 
@@ -59,8 +62,8 @@ const store = createStore(
  );
 
  export default store;
-
-
+```
+```jsx
 // post.jsx
 
 import React, {Component} from 'react';
@@ -117,7 +120,7 @@ class Post extends Component{
       )
   }
 }
-
+```
 
 2.2. 리액트에서 리덕스를 사용하며, 컴포넌트들을 랩핑해주기 위해, 즉 Presentation Component(wrapped component라고도 불림)와 Container Component(또한 Root Component라고도 불림)를 구분하기 위해 랩핑하는 작업
 
@@ -128,7 +131,7 @@ class Post extends Component{
 만약 store에 컴포넌트가 종속되어도 상관없는 경우, 즉 컴포넌트가 다른 곳에 쓰이지 않는 경우 굳이 랩핑을 안해줘도 상관없다. 뭐가 좋고 나쁘다의 개념이 아닌, 쓰임에 따라 다르게 센스있게 로직을 구현할 수 있어야한다.
 
 
-
+```jsx
 // App.js
 import React from 'react';
 import store from './store.js';
@@ -143,8 +146,9 @@ export default App extends React.Component {
     return <Post />
   }
 }
+```
 
-
+```jsx
 // ./components/post.jsx
 
 import React, {Component} from 'react';
@@ -175,7 +179,8 @@ class Post extends Component{
       )
   }
 }
-
+```
+```jsx
 // ./containers/post.jsx
 import React, { Component } from 'react';
 import store from '../store';
@@ -201,7 +206,7 @@ export default class extends Component {
     } contents={state}/>
   }
 }
-
+```jsx
 
 2.3. 최종적으로 불편한 점
 : redux를 사용하여 컴포넌트를 구현할때마다 일일이 랩핑해주는 것이 불편한 점이다.
@@ -215,6 +220,7 @@ export default class extends Component {
 
 1) connect와 mapStateToProps, mapDispatchToProps
 : 함수이름은 생활코딩에서 좀 더 직관적으로 재작명해준대로 적어봤다.
+```jsx
 import { connect } from 'react-redux';
 connect(mapReduxStateToReactProps, mapReduxDispatchToReactProps)(Presentation Component)
 
@@ -259,3 +265,4 @@ function mapDispatchToProps(dispatch){
     }
   }
 }
+```
