@@ -218,7 +218,7 @@ export default class extends Component {
 3. 리액트 리덕스
 이러한 Wrapping을 도와주는 connect와 동시에 react가 redux를 위해 지원하는 useDispatch와 useSelector와 같은 hooks가 있는 반면, connect parameter를 통해 mapStateToProps, mapDispatchToProps 등의 메소드를 이용하는 방법이 있다.
 
-1) connect와 mapStateToProps, mapDispatchToProps
+1))) connect와 mapStateToProps, mapDispatchToProps
 : 함수이름은 생활코딩에서 좀 더 직관적으로 재작명해준대로 적어봤다.
 
 ```jsx
@@ -266,4 +266,58 @@ function mapDispatchToProps(dispatch){
     }
   }
 }
+```
+
+
+2))) useDispatch와 useSelector을 사용하여 리액트 리덕스 사용하는 예제
+```jsx
+// npm으로 react-redux을 install받고 우선 useDispatch와 useSelector을 'react-redux'로
+// 부터 import를 해온다.
+
+import { useDispatch, useSelector } from 'react-redux';
+
+```
+
+<strong>useDispatch</strong>
+store.dispatch()는 리덕스에서 action을 reducer에 전달하는 역활을 한다. 여기서도 마찬가지로 action을 보내야한다.
+
+다음과 같이 사용한다면 <Provider>로 감싸져있는 컴포넌트내에서
+
+```jsx
+const dispatch = useDispatch();
+
+const 이벤트함수 = (e) => {
+  dispatch({
+      type: 'ADD_TEXT',
+      text: e.target.value
+  })
+}
+```
+
+이렇게 사용하여 각 컴포넌트내에서 일일이 store를 import해와서 store.dispatch()를 쓸 필요가 없어졌다.
+
+하지만 connect와는 다르게 컴포넌트를 Wrapping하지 않으므로 컴포넌트 부품화를 하지못한다는 단점이 있다. 하지만 앞서 말했듯이 굳이 필요하지 않다면 쓰지 않아도 괜찮다. 좋고 나쁨의 문제가 아니고, 그저 쓰임새에 따라 다르게 사용하면 되는 것이다.
+
+
+<strong>useSelector</strong>
+useSelector store에서 state을 가져오는 역활을 한다. 코드는 다음과 같다.
+
+```jsx
+const state = useSelector((state) => state.reducer.contents);
+
+render(){
+  return {state.map((el) => <자식 컴포넌트 key={el.id} text={el.text}>)}
+}
+```
+
+useSelector의 첫번째이자 마지막인자의 콜백함수의 매개변수가 state를 받아오기로 약속되어있는데, 왜 reducer를 거쳐서 state를 사용하는 것일까?
+
+만약 combineReducers를 사용할경우 즉, reducer가 여러개인 경우 그에따른 reducer를 거쳐 state를 조회해야 할 것 이다.
+
+** 하지만 Reducer를 하나만 사용하는 경우 useSelector(state를 조회하는 기능)의 사용방법은 다음과 같다.
+
+```jsx
+
+const state = useSelector(state => state);
+
 ```
