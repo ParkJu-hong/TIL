@@ -1,5 +1,5 @@
 export default function reducer(state, action){
-    if(state !== undefined){
+    if(state === undefined){
         return {
             nowId: 1,
             contents: [{id: 1, text: 'first'}]

@@ -4,7 +4,8 @@ import Menu from '../components/Menu';
 
 function MenusContainer() {
     const dispatch = useDispatch();
-    const state = useSelector(state => state.contents);
+    const state = useSelector(state => { 
+        return state.contents; });
     const onHandleClick = (id) => {
         dispatch({
             type: 'CHANGE_NOW_ID',
@@ -15,11 +16,11 @@ function MenusContainer() {
     }
     return (
         <div>
-            {state.map((el) => {
-                <Menu contents={el} _onClick={(id)=>{
+            {state.map((el) => 
+                <Menu key={el.id} content={el} _onClick={(id)=>{
                     onHandleClick(id);
                 }}/>
-            })}
+            )}
         </div>
     )
 }
