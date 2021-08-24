@@ -16,6 +16,7 @@
 <h3>환경변수 조회 및 저장방법</h3>
 : 터미널에 ```export``` 라고 치면 다음과 같은 결과가 나온다.
 <h4>환경변수 조회</h4>
+
 ![export]('./screens/export.png')
 
 <br>
@@ -23,7 +24,8 @@
 <strong>``export 변수이름=할당할 값``</strong>
 
 ![export]('./screens/isGood.png')
-ㅇㅈㅂ
+
+
 
 <br>
 <strong>.env파일에 저장하는 방법</strong>
