@@ -14,16 +14,16 @@
 이는 API key를 프로그래밍 코드에 그대로 노출될 수 있기 때문이다. 그래서 환경변수에 저장해놓고 사용하는 방법이 있다. 결국 보안문제인 것 이다.
 
 <h3>환경변수 조회 및 저장방법</h3>
-: 터미널에 ```export``` 라고 치면 다음과 같은 결과가 나온다.
+: 터미널에 "export" 라고 치면 다음과 같은 결과가 나온다.
 <h4>환경변수 조회</h4>
 
-![export]('./screens/export.png')
+![export](./screens/export.png)
 
 <br>
 <h4>환경변수 저장</h4>
 <strong>``export 변수이름=할당할 값``</strong>
 
-![export]('./screens/isGood.png')
+![export](./screens/isGood.png)
 
 
 
