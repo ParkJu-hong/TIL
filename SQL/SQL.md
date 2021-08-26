@@ -7,6 +7,8 @@ SQL은 DATABASE에 Query(요청, 질의문)을 해서 응답을 받아올 수 �
 
 
 <h4>데이터베이스 관련</h4>
+
+
 ```js
 1. 데이터베이스 생성
 CREATE DATABASE 데이터베이스_이름
