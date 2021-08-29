@@ -31,6 +31,7 @@ DESCRIBE 데이터베이스_이름
 <h4>SQL</h4>
 : SQL문법은 여기보다 잘 설명되어있는 곳이 많으니,, 내가 틀린 문장들을 적어보도록 하겠다.
 
+
 1. SELECT * FROM Persons WHERE FirstName LIKE 'a%'
    : Persons테이블에 FirstName 특성에서 a로 시작하는 값을 가져오란 뜻이다.
      이때 SELECT는 데이터 셋에 포함될 특성을 특정한다. *은 모든 데이터타입을 의미하고
@@ -38,14 +39,17 @@ DESCRIBE 데이터베이스_이름
      2 <<== 숫자
      15 + 3 <<== 간단한 연산
 
+
 2. SELECT * FROM Persons WHERE FirstName = 'Peter' AND LastName = 'Jackson'
    : 모든 특성을 Persons 테이블로부터 FirstName특성이 Perter인경우만 그리고 LastName특성이 'Jackson'경우만
      가져오란 뜻이다.
 
      이때 WHERE은 = 뿐만아니고 <=, <, >=, > 도 가능하다.
 
+
 3. SELECT * FROM Persons WHERE LastName BETWEEN 'Hansen' AND 'Pettersen'
    : 모든 특성을 Persons 테이블로부터 LastName인 특성에서 Hansen과 Pettersen사이에 있는 값들을 가져오라는 뜻
+
 
 4. SELECT DISTINCT 특성
    ```js
@@ -60,24 +64,36 @@ DESCRIBE 데이터베이스_이름
 5. ORDER BY 특성      // 오름차순
    ORDER BY 특성 DESC // 내림차순
 
+
 6. INSERT INTO Persons VALUES('Jimmy', 'Jadson')
    INSERT INTO Persons (LastName) VALUES ('Olsen')
    : INSERT INTO VALUES을 사용하여 해당 테이블에 새로운 레코드 추가가능
      첫번째는 Persons테이블에 'Jimmy', 'Jadson'을 넣겠다는 뜻
      두번째는 Persons테이블의 LastName필드에 'Olsen'을 넣겠다는 뜻
 
+
 7. UPDATE Persons SET LastName = 'Nilsen' WHERE LastName = 'Hansen'
    : Persons테이블의 LastName필드의 'Nilsen'을 'Hansen'로 바꾸겠다는 뜻
+
 
 8. DELETE FROM Persons WHERE FirstName = 'Peter'
 
 
 9. SELECT COUNT (*) FROM Persons
 
+
 10. INNER JOIN
 
+
 11. ORDER BY Country, City
+
 
 12. UPDATE Customers
     SET City = 'Oslo'
     AND Country = 'Norway'
+
+
+
+
+
+
