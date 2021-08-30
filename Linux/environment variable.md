@@ -45,3 +45,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 console.log(process.env.env파일에서 저장한 변수이름);
 ```
+
+
+
+.
