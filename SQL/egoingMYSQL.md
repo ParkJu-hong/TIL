@@ -74,8 +74,8 @@ USE 테이블(표)이름;
 5 ) SQL(Structured Query Language)
  : 정리정돈을 유식하게 구조화되었다 그걸 영어로 Structured이다.
    요청한다, 질의한다 ==>> Query
-   
- 
+
+
   테이블의 X축 row, record, 행 이라고 불름
   테이블의 Y축 column, 열 이라고 부름
 
@@ -87,7 +87,7 @@ USE 테이블(표)이름;
   title VARCHAR(255) NOT NULL,
   description TEXT NULL,
   PRIMARY KEY(id)
- ) 
+ )
 
  INT 데이터타입뒤에 괄호는 얼마나 값을 노출시킬 것인가이다. 노출이 안   되면
  *로 가려진다.
@@ -101,15 +101,15 @@ USE 테이블(표)이름;
   NULL은 값이 없는 것을 허용하겠다라는 뜻
 
   AUTO_INCREMENT는 중복되지 않은 식별자를 갖게하기 위함
-  
+
   VARCHAR
   VAR 은 변한다의 약자
   CHAR은 문자열의 약자
 
    MySQL 데이터타입 정리
    https://blog.martinwork.co.kr/mysql/2020/01/17/mysql-data-type.html
- 
-  
+
+
 PRIMARY KEY(id)
 는 중복을 방지하는 기능을 해줌 PRIMARY는 주요한이란 의미
 
@@ -154,7 +154,7 @@ WHERE column이름(필드이름) = '';
 (영어로 꼭!)
 
 
-SELECT FROM WHERE AND ORDER BY DESC LIMIT 
+SELECT FROM WHERE AND ORDER BY DESC LIMIT
 
 데이터베이스를 잘한다라는 핵심은 SELECT를 적재적소에서 잘 쓰나..
 
@@ -178,62 +178,37 @@ WHERE 꼭 인지해라... WHERE WHERE WHERE
 DELETE FROM 테이블이름 WHERE id=지울 아이디 값;
 
 
-
-
 SELECT * FROM test_table1 WHERE title LIKE "하%";
 
 
+11 ) table에 새로운 column을 추가하고 싶을때
+
+Add column in table
+Syntax
+The syntax to add a column in a table in MySQL (using the ALTER TABLE statement) is:
+
+ALTER TABLE table_name
+  ADD new_column_name column_definition
+    [ FIRST | AFTER column_name ];
+table_name
+The name of the table to modify.
+new_column_name
+The name of the new column to add to the table.
+column_definition
+The datatype and definition of the column (NULL or NOT NULL, etc).
+FIRST | AFTER column_name
+Optional. It tells MySQL where in the table to create the column. If this parameter is not specified, the new column will be added to the end of the table.
+
+출처 === >>> https://www.techonthenet.com/mysql/tables/alter_table.php
 
 
 
+12 )
+INSERT INTO test_table1(`title`, `desc`) VALUES ('네번째', '네번째 텍스트');
+
+이렇게 백틱으로 꼭 감싸줘야하는 경우가 있다.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+13 ) NULL과 NOT NULL의 차이
+https://www.phpschool.com/gnuboard4/bbs/board.php?bo_table=qna_db&wr_id=173451
