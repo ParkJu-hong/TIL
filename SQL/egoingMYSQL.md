@@ -212,3 +212,30 @@ INSERT INTO test_table1(`title`, `desc`) VALUES ('네번째', '네번째 텍스�
 
 13 ) NULL과 NOT NULL의 차이
 https://www.phpschool.com/gnuboard4/bbs/board.php?bo_table=qna_db&wr_id=173451
+
+
+
+
+
+*** 몰랐던 문법
+
+DESCRIBE 테이블 이름
+===>>> 테이블 구조를 알려줌
+
+
+DROP TABLE 테이블이름
+===>>> 테이블 지움
+
+WHERE NOT a = 'b';
+===>>> 특정 조건외에 값을 조회할 것
+
+AS 문
+===>>> 테이블 이름을 축약해줌
+ex) SELECT c.title, u.name FROM content AS c LEFT JOIN user AS u ON u.id = c.userId;
+
+
+
+
+
+
+관계형 데이터베이스 테이블 분리하기
