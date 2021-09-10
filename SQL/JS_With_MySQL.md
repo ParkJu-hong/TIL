@@ -144,16 +144,127 @@ module.exports = config;
 이제 이 함수들을 controllers/index.js가 사용하게 될 것이다.
 
 <h4>controllers/index.js</h4>
-controllers/index.js는 
+controllers/index.js는 app.js에서 node.js의 express로 서버를 구축하기위한 라우팅 작업을 할 것인데, 함수형 프로그래밍을 하여 
+app.js에서 라우팅을 할때 깔끔하게 request할 수 있도록 함수를 만들어두는 곳이다.
+
+```js
+    const models = require('../models');
+    
+    module.exports = {
+        get: (request, response) => {
+            const id = req.params.id;
+
+            if(!id){
+                return res.status(401).send('Unauthorized Id');
+            }else{
+                models.get(id, (error, result) => {
+                    if(error){
+                        res.status(404).send('can not find id');
+                    }else{
+                        res.status(200).json(result);
+                    };
+                });
+            };
+        },
+        post: (request, response) => {
+            const name = request.query.name;
+
+            if(!name){
+                res.status(401).send('Unauthorized Name');
+            }else{
+                models.post(String(name), (error, result) => {
+                    if(error){
+                        res.status(404).send('can not find name');
+                    }else{
+                        res.status(200).send('Success INSERT INTO');
+                    };
+                });
+            };
+        };
+    };
+```
+
+또한 이제 이 함수들을 app.js가 express를 곁들여서 라우팅과 함께 쓰게 될 것 이다.
 
 
+<h4>app.js</h4>
+
+```js
+    const express = require('express');
+    const router = require('./routes');
+    const cors = require('cors');
+    const morgan = require('morgan');
+    const parser = require('body-parser');
+    const controller = require('./controllers');
+
+    const app = express();
+    const port = 4000;
+
+    app.use(
+    morgan(':method :url :status :res[content-length] - :response-time ms')
+    );
+    app.use(cors());
+    app.use(parser.json());
+    app.get('/:id', controllers.get);
+    app.post('/', controllers.post);
+
+    module.exports = app.listen(port, () => {
+    console.log(`🚀 Server is starting on ${port}`);
+    });
+```
+
+node.js로 구현한 웹서버를 mysql과 연동하는 법을 복습해봤다. 혹시 틀린 코드나 틀린 것이 있으면 피드백 부탁드리겠습니다!!
+
+<br/><br/><br/>
+
+다음은 express router가 좀 부족한 것 같아서 나중에 공부할 것들을 남겨놓도록 하겠다..
+
+<h4>app.js</h4>
+
+```js
+    const express = require('express');
+    const router = require('./routes');
+    const cors = require('cors');
+    const morgan = require('morgan');
+    const parser = require('body-parser');
+    const controller = require('./controllers');
+
+    const app = express();
+    const port = 4000;
+
+    app.use(
+    morgan(':method :url :status :res[content-length] - :response-time ms')
+    );
+    app.use(cors());
+    app.use(parser.json());
+    app.use('/users', router);
+    app.get('/items', controller.items.get);
+    module.exports = app.listen(port, () => {
+    console.log(`🚀 Server is starting on ${port}`);
+    });
+
+```
+
+<h4>./routes.js</h4>
+
+```js
+
+    const router = require('express').Router();
+    const controller = require('./controllers');
+
+    // userId로 전체 주문 내역을 조회하는 라우팅
+    router.get('/:userId/orders', controller.orders.get);
+    // 쇼핑 카트에서 새로운 주문을 생성하는 라우팅
+    router.post('/:userId/orders/new', controller.orders.post);
+
+    module.exports = router;
 
 
+```
 
 
-
-
-
+req.body, req.query, req.params 쓸 때를 구분할 수 있는 가? NO
+알아보고 블로깅할 것
 
 
 
