@@ -93,7 +93,12 @@ DESCRIBE 데이터베이스_이름
     AND Country = 'Norway'
 
 
+13.
+    mysql> ALTER TABLE user
+    -> ADD CONSTRAINT roleId
+    -> FOREIGN KEY(roleId)
+    -> REFERENCES content (userId);
 
+    이렇게하니까 column의 key가 MUL이 되버림 멀티란 뜻일까?
 
-
-
+14. PRIMARY KEY는 반드시 NOT NULL이여야함

@@ -47,5 +47,13 @@ console.log(process.env.env파일에서 저장한 변수이름);
 ```
 
 
+<h4>process.env란?</h4>
+Node.js에서 환경변수에 접근할 때는 <strong>process.env</strong>라는 내장 자바스크립트 객체를 사용함.
+process는 전역 객체이기 때문에 별도의 import가 필요없음. 
 
-.
+
+터미널에서의 env명령어
+env ==>> 환경변수 조희
+env NAME=VALUE ==>> 환경변수의 생성
+env -u NAME ==>> 환경변수의 삭제
+env NODE_EMV=production 또는 development
