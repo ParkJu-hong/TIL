@@ -26,4 +26,4 @@ sign() verity() 가 어떤 리턴값을 리턴하는 지 알아볼 것.
 
 <h1>TokenFunctions해석</h1>
 
-토큰을 generate함수로 받고, send함수로 보내는 구나..
+토큰을 generate함수로 받고, send함수로 내보냄
