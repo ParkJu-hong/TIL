@@ -121,7 +121,9 @@ margin: px;
 
 ### static(정적인) VS relative(상대적인)
 
-relative는 부모태그에 대해서 상대적으로 위치를 지정할 수 있다.
+relative는 **부모태그에** 대해서 상대적으로 위치를 지정할 수 있다.
+
+static과 relative의 차이점은 offset을 사용해서 위치시킬 수 있느냐 없느냐하는 것이다.
 
 ```css
 div {
@@ -144,10 +146,157 @@ div {
 
 ### absolute (절대 포지션)
 
-position을 absolute를 적용하면 다른태그들의 영향을 받지않고 절대적인 위치로 웹페이지에서 위치된다. ex) 고정된 상단 header
+absolute일때 width을 100%쓰지 않는다.
 
-position을 absolute로 지정을 하고 offset을 지정하지 않으면, 부모태그 바로 아래, 즉 자신이 원래 위치해야할 위치, position속성을 쓰지 않은 환경 (static)일때의 위치로 위치됌.
+absolute 포지셔닝은 부모태그가 positioned 엘리먼트를 필요로한다.
 
-또한 position을 absolute를 적용하면 부모태그와 관련이 없게된다.
+또한 absolute와 relative는 다음과 같은 디자인에서 레이아웃을 나누는데 용이하게 사용할 수 있다.
 
-static이 아닌 부모태그가 나타나기전까지 무시하다가 static이 아닌 부모태그가 나타나면 그 부모의 위치를 기준으로 offset위치를 지정한다.
+![정승원 포지션.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bef7e5b2-d92d-4a48-8baf-6021df095a9d/정승원_포지션.png)
+
+⇒ 출처 : junsngwon.com
+
+```html
+<html>
+	<head>
+		<style>
+      #relative{
+  display: flex;
+  position: relative;
+  width: 300px;
+  height: 100px;
+  border: 1px solid red;
+}
+
+#absolute1{
+  position: absolute;
+  top: 50px;
+}
+#absolute2{
+  position: absolute;
+  top: 50px;
+  left: 130px;
+}
+#absolute3{
+  position: absolute;
+  top: 50px;
+  right: 0px;
+}
+		</style>
+	</head>
+	<body>
+		<div id="relative">
+			<div id="absolute1">
+        화살표 왼쪽 버튼
+      </div>
+			<div id="absolute2">
+        이미지
+      </div>
+			<div id="absolute3">
+        화살표 오른쪽 버튼
+      </div>
+		</div>
+	</body>
+</html>
+```
+
+![포지션 쇼핑몰.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b9cb775c-012f-4fd0-ad36-1affc47703f8/포지션_쇼핑몰.png)
+
+⇒ [junsngwon.com](http://junsngwon.com) 사이트에서 한 것 처럼 디자인을 레이아웃한 위의 코드 output
+
+### fixed
+
+fixed는 절대적으로 웹페이지에 고정되어 있다. 해서 사용자가 스크롤해서 페이지를 조금 내린다던가 할때 상단바가 안보이는 현상을 고려하여 fixed를 사용할 수 있다.
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #header{
+      border: 1px solid black;
+      display: flex;
+      width: 100%;
+      /* position: absolute; */
+      /* left: 10px;
+      top: 10px; */
+      position: fixed;
+    }
+    #header div{
+      display: flex;
+      flex: 1 1 auto;
+      justify-content: center;
+    }
+
+    #whatthe{
+      position: absolute;
+      top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <div>메뉴</div>
+    <div>제목</div>
+    <div>공지사항</div>
+  </div>
+  <div id="whatthe">
+    <h1>내용들</h1>
+  </div>
+</body>
+</html>
+```
+
+## float(붕뜨다, 부유하다)
+
+float, clear 는 사용빈도가 높은속성
+
+float는 본문에 이미지를 삽입할때 쓰이는 속성이다.
+
+```html
+<img src="sample.png" alt="" style="
+width:300px;
+float:left; /* right도 사용가능 속성값찾아서 사용할 것*/
+margin-right: 20px;
+margin-bottom: 10x;
+"></img>
+<p style="border: 1px solid blue;">lorem ipsum<p>
+<p style="
+border: 1px solid blue;
+clear: both;
+/*
+	clear 속성값은 both, right, left가 있는데
+	float가 right면 clear는 left
+	float가 left면 clear는 right
+	float에 맞춰 clear를 위치시킨다는 both
+*/
+">lorem ipsum<p>
+```
+
+이미지 삽입의외에도 float는 레이아웃을 잡을때 많이 사용한다.
+
+### holy grail layout
+
+성배(grail)를 찾는 것만큼 레이아웃을 하기 어려워서..라는 레이아웃
+
+![홀리 그릴 레이아웃.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bdf008a9-99b9-4615-b1bb-52b9a1b1e3cb/홀리_그릴_레이아웃.png)
+
+출처 : 생활코딩
+
+두가지가 있을듯, flex나 float(with clear)로 레이아웃하는 경우들
+
+# ?
+
+그런건 어떻게 할까 저렇게 레이아웃을 나누면 article부분이 엄청길어도 article부분만 스크롤해서 내용을 볼 수 있도록 할 수 있는..
+
+css 박스모델에서는 테두리를 포함한다. (px)
+
+## box-sizing 생활코딩 볼 것
+
+레이아웃해보자 일단 해보는 게 중요함.
+
+flex로 6개해보자
+
+요즘 flex쓰고 float는 거의 안쓰는 데 알아둬야 코드읽을 수 있으니깐..
+
+개인적으로 포트폴리오 만들때는 flex를 레이아웃할 때 사용하고 float는 이미지와 글 삽입할때 사용해보자
