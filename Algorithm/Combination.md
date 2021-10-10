@@ -30,4 +30,4 @@ combination in total elements count.
 <h2>위 코드 풀이</h2>
 getCombination([1,2,3,4], 3)라면?
 
-![combination]("./img/combination.jpg")
+![combination](./img/combination.jpg)
