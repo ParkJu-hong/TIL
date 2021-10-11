@@ -152,7 +152,9 @@ absolute 포지셔닝은 부모태그가 positioned 엘리먼트를 필요로한
 
 또한 absolute와 relative는 다음과 같은 디자인에서 레이아웃을 나누는데 용이하게 사용할 수 있다.
 
-![정승원 포지션.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bef7e5b2-d92d-4a48-8baf-6021df095a9d/정승원_포지션.png)
+![정승원 포지!(이미지 URL)
+
+![정승원 포지션](./img/정승원 포지션.png)
 
 ⇒ 출처 : junsngwon.com
 
@@ -200,7 +202,7 @@ absolute 포지셔닝은 부모태그가 positioned 엘리먼트를 필요로한
 </html>
 ```
 
-![포지션 쇼핑몰.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b9cb775c-012f-4fd0-ad36-1affc47703f8/포지션_쇼핑몰.png)
+![포지션 쇼핑몰.png](./img/포지션 쇼핑몰.png)
 
 ⇒ [junsngwon.com](http://junsngwon.com) 사이트에서 한 것 처럼 디자인을 레이아웃한 위의 코드 output
 
@@ -279,7 +281,7 @@ clear: both;
 
 성배(grail)를 찾는 것만큼 레이아웃을 하기 어려워서..라는 레이아웃
 
-![홀리 그릴 레이아웃.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bdf008a9-99b9-4615-b1bb-52b9a1b1e3cb/홀리_그릴_레이아웃.png)
+![홀리 그릴 레이아웃.png](./img/홀리 그릴 레이아웃.png)
 
 출처 : 생활코딩
 
