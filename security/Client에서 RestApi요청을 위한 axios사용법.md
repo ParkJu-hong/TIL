@@ -5,14 +5,15 @@ https://tuhbm.github.io/2019/03/21/axios/
 ```js
 const axios = require('axios');
 function async () {
-  return await axios.get(url);
+  return await axios.get(url, { withCredentials: true });
   // 혹은
   return axios(url, {
     method: 'get',
+    withCredentials: true,
     data: {
      foo: 'diary'
    }
-  })
+ })
 }
 ```
 <h1>POST</h1>
@@ -22,7 +23,7 @@ function async () {
   return await axios.post(url, {
     userId: 'bejejupark@gmail.com',
     password: '쉿'
-  })
+  },  { 'Content-Type': 'application/json', withCredentials: true })
 
   // 혹은
 
@@ -31,7 +32,9 @@ function async () {
     params: {
       userId: 'bejejupark@gmail.com',
       password: '쉿'
-    }
+    },
+    'Content-Type': 'application/json'
+    withCredentials: true
   })
 }
 ```
