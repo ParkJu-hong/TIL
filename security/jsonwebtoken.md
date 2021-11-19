@@ -36,11 +36,11 @@ verify(리프레시토큰, 리프레시 시크릿키) => data // ex) 유저정�
 moduel.exports = {
 	generateAccessToken: (data) => {
 		// 엑세스토큰 받는 함수 맨 처음 로그인시
-    return sign(data, "" + process.env.ACCESS_SECRET, { expiresIn: "15s" });
+    return sign(data, process.env.ACCESS_SECRET, { expiresIn: "15s" });
   },
   generateRefreshToken: (data) => {
 		// 리프레쉬토큰 받는 함수 맨 처음 로그인시
-    return sign(data, "" + process.env.REFRESH_SECRET, { expiresIn: "30d" });
+    return sign(data, process.env.REFRESH_SECRET, { expiresIn: "30d" });
   },
 	sendRefreshToken: (res, refreshToken) => {
 		// refresh토큰 응답해주는 함수
@@ -66,7 +66,7 @@ moduel.exports = {
     }
     const token = authorization.split(" ")[1];
     try {
-      return verify(token, "" + process.env.ACCESS_SECRET);
+      return verify(token, process.env.ACCESS_SECRET);
     } catch (err) {
       // return null if invalid token
       return null;
@@ -75,7 +75,7 @@ moduel.exports = {
   checkRefreshToken: (refreshToken) => {
 		// RefreshToken이 있음을, 또는 유효기간이 유효한지 전체적인 RefreshToken을 확인함
     try {
-      return verify(refreshToken, "" + process.env.REFRESH_SECRET);
+      return verify(refreshToken, process.env.REFRESH_SECRET);
     } catch (err) {
       // return null if refresh token is not valid
       return null;
