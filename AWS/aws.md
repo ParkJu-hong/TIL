@@ -1,8 +1,7 @@
 [AWS 공부해야할 것](https://www.notion.so/AWS-ca4aa0315f894e8fa15ea09933809d00)
-
 ## PW2
 
-⇒ 프로세스 매니지먼트 도구
+for commit
 
 프로세스(실행 중인 프로그램, 컴퓨터 프로그램의 인스턴스) 보는 법
 
