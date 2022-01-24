@@ -1,4 +1,4 @@
-<h1>컴퓨터공학 기초, 네트워크 심화</h1>
+<h1>다음과 같은 Achievement Goals을 보고 하나 하나 공부해서 블로깅해보자</h1>
 
 ## Achievement Goals
 
