@@ -4,7 +4,7 @@
 4. useSelector로 state를 가져와쓰고, useDispatch로 액션을 인자로 리듀서를 호출시킨다.
 (auto subscribe됌!)
 
-$ npx create-react-app {플젝이름} --typescript
+npx create-react-app [프로젝트 이름] --template typescript
 // 리덕스 쓰기위함
 $ npm install redux react-redux @types/react-redux
 
