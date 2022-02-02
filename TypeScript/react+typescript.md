@@ -1,186 +1,153 @@
-참고
-https://www.kenrhee.com/blog/getting-started-with-typescript-with-react
+$ npx create-react-app {플젝이름} --typescript
+// 리덕스 쓰기위함
+$ npm install redux react-redux @types/react-redux
 
-https://react.vlpt.us/using-typescript/
+## 1. 리덕스 모듈 작성 src/modules/_______.ts
+  이 모듈에는 다음과 같은 내용들이 들어간다
 
-공식문서 https://create-react-app.dev/docs/adding-typescript/
+  ```ts
+  // 액션 타입을 선언합니다
+  // 뒤에 as const 를 붙여줌으로써 나중에 액션 객체를 만들게 action.type 의 값을 추론하는 과정에서
+  // action.type 이 string 으로 추론되지 않고 'counter/INCREASE' 와 같이 실제 문자열 값으로 추론 되도록 해줍니다.
+  const INCREASE = 'counter/INCREASE' as const;
+  const DECREASE = 'counter/DECREASE' as const;
+  const INCREASE_BY = 'counter/INCREASE_BY' as const;
 
-# 시작
-npx create-react-app {프로젝트 이름} --template typescript
+  // 액션 생성함수를 선언합니다
+  export const increase = () => ({
+    type: INCREASE
+  });
 
+  export const decrease = () => ({
+    type: DECREASE
+  });
 
-// 기존 react프로젝트에 typescript를 추가할 경우
-1. npm install --save typescript @types/node @types/react @types/react-dom @types/jest
+  export const increaseBy = (diff: number) => ({
+    type: INCREASE_BY,
+    // 액션에 부가적으로 필요한 값을 payload 라는 이름으로 통일합니다
+    // 이는 FSA (https://github.com/redux-utilities/flux-standard-action) 라는 규칙인데
+    // 이 규칙을 적용하면 액션들이 모두 비슷한 구조로 이루어져있게 되어 추후 다룰 때도 편하고
+    // 읽기 쉽고, 액션 구조를 일반화함으로써 액션에 관련돤 라이브러리를 사용 할 수 있게 해줍니다.
+    // 다만, 무조건 꼭 따를 필요는 없습니다.
+    payload: diff
+  });
 
-2. 다음으로 모든 파일의 이름을 TypeScript 파일로 변경하고(예: ) 개발 서버를 다시 시작src/index.js 하십시오 !src/index.tsx
+  // 모든 액션 겍체들에 대한 타입을 준비해줍니다.
+  // ReturnType<typeof _____> 는 특정 함수의 반환값을 추론해줍니다
+  // 상단부에서 액션타입을 선언 할 떄 as const 를 하지 않으면 이 부분이 제대로 작동하지 않습니다.
+  type CounterAction =
+    | ReturnType<typeof increase>
+    | ReturnType<typeof decrease>
+    | ReturnType<typeof increaseBy>;
 
-
-
-```ts
-type Person = {
-  name: string;
-  age?: number; // 물음표가 들어갔다는 것은, 설정을 해도 되고 안해도 되는 값이라는 것을 의미합니다.
-};
-
-// & 는 Intersection 으로서 두개 이상의 타입들을 합쳐줍니다.
-// 참고: https://www.typescriptlang.org/docs/handbook/advanced-types.html#intersection-types
-type Developer = Person & {
-  skills: string[];
-};
-
-const person: Person = {
-  name: '김사람'
-};
-
-const expert: Developer = {
-  name: '김개발',
-  skills: ['javascript', 'react']
-};
-
-type People = Person[]; // Person[] 를 이제 앞으로 People 이라는 타입으로 사용 할 수 있습니다.
-const people: People = [person, expert];
-
-type Color = 'red' | 'orange' | 'yellow';
-const color: Color = 'red';
-const colors: Color[] = ['red', 'orange'];
-
-```
-
-Generics
-어떤 값이 들어올지 타입유추를 할 수 없을때 사용한다.
-```ts
-function merge<A, B>(a: A, b: B): A & B {
-  return {
-    ...a,
-    ...b
+  // 이 리덕스 모듈에서 관리 할 상태의 타입을 선언합니다
+  type CounterState = {
+    count: number;
   };
-}
 
-const merged = merge({ foo: 1 }, { bar: 1 });
-```
+  // 초기상태를 선언합니다.
+  const initialState: CounterState = {
+    count: 0
+  };
 
+  // 리듀서를 작성합니다.
+  // 리듀서에서는 state 와 함수의 반환값이 일치하도록 작성하세요.
+  // 액션에서는 우리가 방금 만든 CounterAction 을 타입으로 설정합니다.
+  function counter(
+    state: CounterState = initialState,
+    action: CounterAction
+  ): CounterState {
+    switch (action.type) {
+      case INCREASE: // case 라고 입력하고 Ctrl + Space 를 누르면 어떤 종류의 action.type들이 있는지 확인 할 수 있습니다.
+        return { count: state.count + 1 };
+      case DECREASE:
+        return { count: state.count - 1 };
+      case INCREASE_BY:
+        return { count: state.count + action.payload };
+      default:
+        return state;
+    }
+  }
+
+  export default counter;
+  ```
+## 2. 프로젝트에 리덕스 적용하기 src/modules/index.ts
 ```ts
-function wrap<T>(param: T) {
-  return {
-    param
-  }
-}
+import { combineReducers } from 'redux';
+import counter from './counter';
 
-const wrapped = wrap(10);
+const rootReducer = combineReducers({
+  counter
+});
+
+// 루트 리듀서를 내보내주세요.
+export default rootReducer;
+
+// 루트 리듀서의 반환값를 유추해줍니다
+// 추후 이 타입을 컨테이너 컴포넌트에서 불러와서 사용해야 하므로 내보내줍니다.
+export type RootState = ReturnType<typeof rootReducer>;
 ```
 
-```ts
-type Items<T> = {
-  list: T[];
-};
-
-const items: Items<string> = {
-  list: ['a', 'b', 'c']
-};
-```
-```ts
-class Queue<T> {
-  list: T[] = [];
-  get length() {
-    return this.list.length;
-  }
-  enqueue(item: T) {
-    this.list.push(item);
-  }
-  dequeue() {
-    return this.list.shift();
-  }
-}
-
-const queue = new Queue<number>();
-queue.enqueue(0);
-queue.enqueue(1);
-queue.enqueue(2);
-queue.enqueue(3);
-queue.enqueue(4);
-console.log(queue.dequeue());
-console.log(queue.dequeue());
-console.log(queue.dequeue());
-console.log(queue.dequeue());
-console.log(queue.dequeue());
-```
-
-# 다시 리액트 타입스크립트
-
-React.FC를 사용할때의컴포넌트 선언과 props 선언(지양)
+## 3. src/index.ts에 리덕스 store등 적용하기
 ```ts
 import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import rootReducer from './modules';
 
-type GreetingsProps = {
-  name: string;
-};
+const store = createStore(rootReducer);
 
-const Greetings: React.FC<GreetingsProps> = ({ name }) => (
-  <div>Hello, {name}</div>
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
 );
 
-export default Greetings;
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();
 ```
 
-(지향)
+## 4. 프리젠테이셔널 컴포넌트 만들기 src/components 에 만들 것
 ```ts
 import React from 'react';
 
-type GreetingsProps = {
-  name: string;
-  mark: string;
-};
-
-const Greetings = ({ name, mark }: GreetingsProps) => (
-  <div>
-    Hello, {name} {mark}
-  </div>
-);
-/*
-    function Greetings({ name, mark }: GreetingsProps) {
-  return (
-    <div>
-      Hello, {name} {mark}
-    </div>
-  );
+type CounterProps {
+  count: number;
+  onIncrease: () => void;
+  onDecrease: () => void;
+  onIncreaseBy: (diff: number) => void;
 }
-*/
 
-Greetings.defaultProps = {
-  mark: '!'
-};
-
-export default Greetings;
-```
-
-## 함수를 type으로 지정하는 예제
-
-```ts
-import React from 'react';
-
-type GreetingsProps = {
-  name: string;
-  mark: string;
-  optional?: string;
-  onClick: (name: string) => void; // 아무것도 리턴하지 않는다는 함수를 의미합니다.
-};
-
-function Greetings({ name, mark, optional, onClick }: GreetingsProps) {
-  const handleClick = () => onClick(name);
+function Counter({
+  count,
+  onIncrease,
+  onDecrease,
+  onIncreaseBy
+}: CounterProps) {
   return (
     <div>
-      Hello, {name} {mark}
-      {optional && <p>{optional}</p>}
-      <div>
-        <button onClick={handleClick}>Click Me</button>
-      </div>
+      <h1>{count}</h1>
+      <button onClick={onIncrease}>+1</button>
+      <button onClick={onDecrease}>-1</button>
+      <button onClick={() => onIncreaseBy(5)}>+5</button>
     </div>
   );
 }
 
-Greetings.defaultProps = {
-  mark: '!'
-};
-
-export default Greetings;
+export default Counter;
 ```
+
+## 5. 컨테이너 컴포넌트 만들기 src/containers/_______.tsx
+```ts
+
+``
+
+
+ㅇㅂㅇㅂ
