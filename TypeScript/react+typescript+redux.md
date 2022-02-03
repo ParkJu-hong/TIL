@@ -1,8 +1,20 @@
+
+## typescript를 쓰기전
 1. initialState를 설정한다
 2. reducer를 작성한다.
 3. store를 만들고 Provider로 App을 containning한다
 4. useSelector로 state를 가져와쓰고, useDispatch로 액션을 인자로 리듀서를 호출시킨다.
 (auto subscribe됌!)
+
+## typescript + react + redux를 사용할 시
+1. src/modules 폴더를 만들고 .ts 파일에 액션타입, 액션생성함수, state 타입, 리듀서등
+(duck패턴)[https://github.com/erikras/ducks-modular-redux]를 사용함.
+2. src/index.ts에 Provider로 App컴포넌트를 감싸고, store를 생성해서 props로 넣어준다.
+3. 프리젠테이셔널 컴포넌트를 만든다.
+4. 프리젠테이셔널을 리덕스로 감싸줄 컨테이너 컴포넌트를 만든다.
+5. 컨테이너 컴포넌트를 렌더링에 직접적으로 사용한다.
+
+
 
 npx create-react-app [프로젝트 이름] --template typescript
 // 리덕스 쓰기위함
